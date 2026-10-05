@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllStudents, postNotice } from '../controllers/adminController.js';
+import { getAllStudents, postNotice } from '../controlles/adminController.js';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
