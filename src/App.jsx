@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Courses from './pages/Courses';
@@ -17,6 +16,12 @@ import Students from '../src/admin/Students';
 import AdminCourses from '../src/admin/Courses';
 import Payments from '../src/admin/Payments';
 import Notices from '../src/admin/Notices';
+import { getSessionUser } from './lib/api';
+
+function AdminRoute({ children }) {
+  const user = getSessionUser();
+  return user?.role === 'admin' ? children : <Navigate to="/login" replace />;
+}
 
 export default function App() {
   return (
@@ -44,11 +49,11 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<StudentDashboard />} />
 
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/students" element={<Students />} />
-        <Route path="/admin/courses" element={<AdminCourses />} />
-        <Route path="/admin/payments" element={<Payments />} />
-        <Route path="/admin/notices" element={<Notices />} />
+        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+        <Route path="/admin/students" element={<AdminRoute><Students /></AdminRoute>} />
+        <Route path="/admin/courses" element={<AdminRoute><AdminCourses /></AdminRoute>} />
+        <Route path="/admin/payments" element={<AdminRoute><Payments /></AdminRoute>} />
+        <Route path="/admin/notices" element={<AdminRoute><Notices /></AdminRoute>} />
       </Routes>
     </BrowserRouter>
   );
