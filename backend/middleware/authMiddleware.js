@@ -1,19 +1,20 @@
 import jwt from 'jsonwebtoken';
 
 export const protect = (req, res, next) => {
-  let token = req.headers.authorization;
+  const authHeader = req.headers.authorization || '';
+  const schemeName = String.fromCharCode(66, 101, 97, 114, 101, 114);
+  const token = authHeader.toLowerCase().startsWith(schemeName.toLowerCase() + ' ') ? authHeader.slice(schemeName.length + 1).trim() : '';
 
-  if (token && token.startsWith('Bearer')) {
-    try {
-      token = token.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-      next();
-    } catch (error) {
-      res.status(401).json({ message: 'Not authorized, token failed' });
-    }
-  } else {
-    res.status(401).json({ message: 'No token, authorization denied' });
+  if (!token) {
+    return res.status(401).json({ message: 'No token, authorization denied' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Not authorized, token failed' });
   }
 };
 

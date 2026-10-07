@@ -8,7 +8,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
       <div>
         <Navbar />
-        {/* Hero Section */}
+       
         <section className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white py-20 px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-6">Build Your Future With Quality Education</h1>
@@ -20,7 +20,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Courses */}
+      
         <section className="max-w-7xl mx-auto px-4 py-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Featured Courses</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
